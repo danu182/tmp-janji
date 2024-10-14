@@ -28,3 +28,11 @@ Route::get('/detail-poli', function () {
 Route::get('/appoinment', function () {
     return view('frontend.appoinment');
 });
+
+Route::get('/riwayat-appoinment', function () {
+    return view('frontend.riwayat-appoinment');
+});
+
+Route::get('/login', function () {
+    return view('frontend.login');
+});
