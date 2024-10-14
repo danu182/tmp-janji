@@ -25,6 +25,6 @@ Route::get('/detail-poli', function () {
     return view('frontend.detail-poli');
 });
 
-Route::get('/detail-poli', function () {
-    return view('frontend.detail-poli');
+Route::get('/appoinment', function () {
+    return view('frontend.appoinment');
 });
