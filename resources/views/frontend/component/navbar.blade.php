@@ -8,8 +8,7 @@
         class="navbar-brand d-flex align-items-center px-4 px-lg-5"
       >
         <h1 class="m-0 text-primary">
-          <i class="far fa-hospital me-3"></i>Klinik
-        </h1>
+          <i class="far fa-hospital me-3"></i> <!-- Klinik --></h1>
       </a>
       <button
         type="button"

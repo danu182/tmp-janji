@@ -81,7 +81,7 @@
               >
                 <i class="fa fa-heartbeat text-primary fs-4"></i>
               </div>
-              <h4 class="mb-3">Audiomtri</h4>
+              <h4 class="mb-3">Poli kandungan</h4>
               <p class="mb-4">
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
                 sed diam stet diam sed stet.
@@ -99,7 +99,7 @@
               >
                 <i class="fa fa-x-ray text-primary fs-4"></i>
               </div>
-              <h4 class="mb-3">Tredmil</h4>
+              <h4 class="mb-3">poli Penyakit dalam</h4>
               <p class="mb-4">
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
                 sed diam stet diam sed stet.
@@ -117,7 +117,25 @@
               >
                 <i class="fa fa-brain text-primary fs-4"></i>
               </div>
-              <h4 class="mb-3">Endoscopy</h4>
+              <h4 class="mb-3">Poli anak</h4>
+              <p class="mb-4">
+                Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
+                sed diam stet diam sed stet.
+              </p>
+              <a class="btn" href=""
+                ><i class="fa fa-plus text-primary me-3"></i>Read More</a
+              >
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+            <div class="service-item bg-light rounded h-100 p-5">
+              <div
+                class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"
+                style="width: 65px; height: 65px"
+              >
+                <i class="fa fa-brain text-primary fs-4"></i>
+              </div>
+              <h4 class="mb-3">Poli bedah umum</h4>
               <p class="mb-4">
                 Erat ipsum justo amet duo et elitr dolor, est duo duo eos lorem
                 sed diam stet diam sed stet.
@@ -133,7 +151,7 @@
     <!-- Service End -->
 
     <!-- Feature Start -->
-    <div class="container-fluid bg-primary overflow-hidden my-5 px-lg-0">
+    {{-- <div class="container-fluid bg-primary overflow-hidden my-5 px-lg-0">
       <div class="container feature px-lg-0">
         <div class="row g-0 mx-lg-0">
           <div
@@ -228,11 +246,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <!-- Feature End -->
 
     <!-- Team / klini spesialis Start -->
-    <div class="container-xxl py-5">
+    {{-- <div class="container-xxl py-5">
       <div class="container">
         <div
           class="text-center mx-auto mb-5 wow fadeInUp"
@@ -400,7 +418,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> --}}
     <!-- Team / klini spesialis End -->
     
 @endsection
