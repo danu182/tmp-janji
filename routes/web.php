@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,13 +18,17 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+// Route::get('/', function () {
+//     return view('frontend.index');
+// });
 
-Route::get('/detail-poli', function () {
-    return view('frontend.detail-poli');
-});
+ Route::get('/', [HomeController::class,'index'])->name('home.index');
+ Route::get('/detailPoli', [HomeController::class,'index'])->name('detailPoli');
+
+
+// Route::get('/detail-poli', function () {
+//     return view('frontend.detail-poli');
+// });
 
 Route::get('/appoinment', function () {
     return view('frontend.appoinment');
