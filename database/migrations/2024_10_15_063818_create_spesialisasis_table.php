@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('spesialisasis', function (Blueprint $table) {
             $table->id();
 
-            $table->string('namaSpesialisi');
-            $table->string('descripcion');
+            $table->string('namaSpesialis');
+            $table->string('keterangan');
             
             $table->timestamps();
         });
