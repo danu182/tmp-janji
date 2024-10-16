@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
  Route::get('/', [HomeController::class,'index'])->name('home.index');
- Route::get('/detailPoli', [HomeController::class,'index'])->name('detailPoli');
+ Route::get('/detailPoli/{id}', [HomeController::class,'detailPoli'])->name('detailPoli');
 
 
 // Route::get('/detail-poli', function () {

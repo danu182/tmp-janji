@@ -9,8 +9,19 @@ class Dokter extends Model
 {
     use HasFactory;
 
-    public function getSpesialis()
+
+    protected $fillable=[
+            'spesialisId',
+            'userId',
+            'namaDokter',
+        ];
+
+
+     public function getSpesialisasi()
     {
-        return $this->belongsTo(Spesialisasi::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Spesialisasi::class, 'spesialisId', 'id');
     }
+
+
+    
 }

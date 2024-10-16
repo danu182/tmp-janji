@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Spesialisasi;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class SpesialisTableSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class SpesialisTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Spesialisasi::create(
+        DB::table('spesialisasis')->insert([
             [
                 'namaSpesialis'=>'Anak',
                 'keterangan'=>'spesialis anak',
@@ -34,6 +35,14 @@ class SpesialisTableSeeder extends Seeder
                 'namaSpesialis'=>'kulit kelamin',
                 'keterangan'=>'spesialis kulit kelamin',
             ],
-        );
+            [
+                'namaSpesialis'=>'kulit kandungan',
+                'keterangan'=>'spesialis kulit kandungan',
+            ],
+            [
+                'namaSpesialis'=>'kulit umum',
+                'keterangan'=>'spesialis kulit umum',
+            ],
+        ]);
     }
 }

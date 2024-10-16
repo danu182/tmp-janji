@@ -13,4 +13,10 @@ class Spesialisasi extends Model
         'namaSpesialis',
         'keterangan',
     ];    
+
+
+    public function getDokter()
+    {
+        return $this->hasMany(Dokter::class, 'spesialisId', 'id');
+    }
 }
