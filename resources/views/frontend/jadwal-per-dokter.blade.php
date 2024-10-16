@@ -45,6 +45,7 @@
                                         @endforeach
                                         {{-- <h5 class="text-white mb-0">{{ $hari->start_time }} - {{ $hari->end_time }}  </h5> --}}
                                     </div>
+                                    
                                 </div>
                             </div>
                             @empty
@@ -61,7 +62,7 @@
                                 </div>
                             </div>
                             @endforelse
-                            
+                            <a href="{{ route('bookingDokter',$jd['id']) }}" class="btn btn-warning">booking</a>
                             
                             {{-- loopong jadwal end --}}
                         </div>
@@ -69,7 +70,7 @@
                 </div>
                 <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute img-fluid w-100 h-100" src="img/feature.jpg" style="object-fit: cover;" alt="">
+                        <img class="position-absolute img-fluid w-100 h-100" src="{{ asset('img/feature.jpg') }}" style="object-fit: cover;" alt="">
                     </div>
                 </div>
             </div>

@@ -60,9 +60,12 @@
                     <h5>{{ $dok->namaDokter }}</h5>
                     <p class="text-primary">Spesialis {{ $dokter[0]['namaSpesialis'] }}</p>
                     <div class="team-social text-center">
-                      <a class="btn btn-square" href="{{ route('jadwalDokter',$dok->id) }}"
+                      {{-- <a class="btn btn-square" href="{{ route('jadwalDokter',$dok->id) }}"
                         ><i class="fab fa-facebook-f"></i
-                      ></a>
+                      ></a> --}}
+                      <a href="{{ route('jadwalDokter',$dok->id) }}" class="btn btn-info" >
+                        <i class="far fa-calendar-alt" >  Jadwal Praktek</i> 
+                      </a>
                       {{-- <a class="btn btn-square" href=""
                         ><i class="fab fa-twitter"></i
                       ></a>
