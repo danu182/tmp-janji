@@ -17,12 +17,7 @@ class HomeController extends Controller
 
     public function detailPoli($id)
     {
-        
         $dokter= Spesialisasi::with('getDokter')->where('id', $id)->get();
-
-        
-        // return $dokter;
-
         return view('frontend.detail-poli', compact('dokter'));
     }
 

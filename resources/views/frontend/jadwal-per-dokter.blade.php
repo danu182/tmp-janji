@@ -27,7 +27,8 @@
                 <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
                     <div class="p-lg-5 ps-lg-0">
                         <p class="d-inline-block border rounded-pill text-light py-1 px-4">Jadawl Praktek</p>
-                        <h1 class="text-white mb-4">{{ $jd->namaDokter }}</h1>
+                        <h1 class="text-white mb-1">{{ $jd->namaDokter }}</h1>
+                        <h4 class="text-light mb-4"> Spesialis {{ $jd->getSpesialisasi->namaSpesialis }}</h4>
                         <p class="text-white mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
                         <div class="row g-4">
                             {{-- loopong jadwal strat --}}

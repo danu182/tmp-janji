@@ -75,11 +75,13 @@
         <div class="row g-4">
 
           @php
-              $i=0.1;
+              $i= 0;
           @endphp
           @forelse ($spesialis as $item)
-          
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ $i++ }}s">
+          @php
+              $i=$i+0.2;
+          @endphp
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ $i }}s">
               <div class="service-item bg-light rounded h-100 p-5">
                 <div
                   class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"

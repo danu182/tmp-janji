@@ -45,10 +45,13 @@
           {{-- looping nanti disini start --}}
 
           @php
-              $i=0.1;
+              $i= 0;
           @endphp
           @forelse ($sp->getDokter as $dok)
-              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ $i++ }}s">
+          @php
+              $i=$i+0.2;
+          @endphp
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ $i }}s">
                 <div class="team-item position-relative rounded overflow-hidden">
                   <div class="overflow-hidden">
                     <img class="img-fluid" src="{{ asset('img/team-1.jpg') }}" alt="" />
