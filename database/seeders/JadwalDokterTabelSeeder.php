@@ -22,6 +22,12 @@ class JadwalDokterTabelSeeder extends Seeder
             ],
             [
                 'dokterId'=>'1',
+                'hari'=>'senin',
+                'start_time'=>'15:00',
+                'end_time'=>'17:00',
+            ],
+            [
+                'dokterId'=>'1',
                 'hari'=>'rabu',
                 'start_time'=>'10:00',
                 'end_time'=>'12:00',
