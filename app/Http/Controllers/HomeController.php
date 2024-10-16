@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokter;
+use App\Models\JadwalDokter;
 use App\Models\Spesialisasi;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,13 @@ class HomeController extends Controller
         // return $dokter;
 
         return view('frontend.detail-poli', compact('dokter'));
+    }
+
+    public function jadwalDokter($id)
+    {
+        $jadwal= Dokter::with('getJadwal')->where('doctorId', $id)->get(); //
+        return $jadwal;
+
+        return view('frontend.appoinment');
     }
 }

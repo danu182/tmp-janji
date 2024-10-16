@@ -17,11 +17,12 @@ class Dokter extends Model
         ];
 
 
-     public function getSpesialisasi()
+    public function getSpesialisasi()
     {
         return $this->belongsTo(Spesialisasi::class, 'spesialisId', 'id');
     }
 
+    
 
     
 }

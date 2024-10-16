@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('jadwal_dokters', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('doctorId');
-            $table->foreign('doctorId')->references('id')->on('dokters');
+            $table->unsignedBigInteger('dokterId');
             
-            $table->date('hari');
+            $table->string('hari');
             $table->time('start_time');
             $table->time('end_time');
             // $table->enum('status', ['available', 'booked']);
             
             $table->timestamps();
+            
+            $table->foreign('dokterId')->references('id')->on('dokters');
         });
     }
 

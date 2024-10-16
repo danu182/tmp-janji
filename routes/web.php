@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Route;
 
  Route::get('/', [HomeController::class,'index'])->name('home.index');
  Route::get('/detailPoli/{id}', [HomeController::class,'detailPoli'])->name('detailPoli');
+ Route::get('/detailPoli/jadwal-dokter/{id}', [HomeController::class,'jadwalDokter'])->name('jadwalDokter');
 
 
 // Route::get('/detail-poli', function () {
