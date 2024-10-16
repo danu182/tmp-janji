@@ -36,8 +36,8 @@ class SpesialisTableSeeder extends Seeder
                 'keterangan'=>'spesialis kulit kelamin',
             ],
             [
-                'namaSpesialis'=>'kulit kandungan',
-                'keterangan'=>'spesialis kulit kandungan',
+                'namaSpesialis'=>'Kandungan',
+                'keterangan'=>'spesialis kandungan',
             ],
             [
                 'namaSpesialis'=>'kulit umum',

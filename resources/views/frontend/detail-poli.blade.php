@@ -44,14 +44,17 @@
 
           {{-- looping nanti disini start --}}
 
+          @php
+              $i=0.1;
+          @endphp
           @forelse ($sp->getDokter as $dok)
-              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="{{ $i++ }}s">
                 <div class="team-item position-relative rounded overflow-hidden">
                   <div class="overflow-hidden">
                     <img class="img-fluid" src="{{ asset('img/team-1.jpg') }}" alt="" />
                   </div>
                   <div class="team-text bg-light text-center p-4">
-                    <h5>Doctor {{ $dok->namaDokter }}</h5>
+                    <h5>{{ $dok->namaDokter }}</h5>
                     <p class="text-primary">Spesialis {{ $dokter[0]['namaSpesialis'] }}</p>
                     <div class="team-social text-center">
                       <a class="btn btn-square" href=""

@@ -79,7 +79,7 @@
           @endphp
           @forelse ($spesialis as $item)
           
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ $i }}s">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ $i++ }}s">
               <div class="service-item bg-light rounded h-100 p-5">
                 <div
                   class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-4"

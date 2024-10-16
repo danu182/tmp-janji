@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nik',
         'birthDay',
         'nip',
+        'perusahaanId',
         'password',
         'alamat',
         'hp',
