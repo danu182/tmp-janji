@@ -28,9 +28,9 @@ class HomeController extends Controller
 
     public function jadwalDokter($id)
     {
-        $jadwal= Dokter::with('getJadwal')->where('doctorId', $id)->get(); //
-        return $jadwal;
+        $jadwal= Dokter::with('getJadwal')->where('id', $id)->get(); //
+        // return $jadwal;
 
-        return view('frontend.appoinment');
+        return view('frontend.jadwal-per-dokter', compact('jadwal'));
     }
 }

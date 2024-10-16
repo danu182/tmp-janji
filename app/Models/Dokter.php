@@ -22,7 +22,15 @@ class Dokter extends Model
         return $this->belongsTo(Spesialisasi::class, 'spesialisId', 'id');
     }
 
-    
+    /**
+     * Get all of the comments for the Dokter
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getJadwal()
+    {
+        return $this->hasMany(JadwalDokter::class, 'dokterId', 'id');
+    }
 
     
 }

@@ -57,7 +57,7 @@
                     <h5>{{ $dok->namaDokter }}</h5>
                     <p class="text-primary">Spesialis {{ $dokter[0]['namaSpesialis'] }}</p>
                     <div class="team-social text-center">
-                      <a class="btn btn-square" href="{{ route('jadwalDokter',2) }}"
+                      <a class="btn btn-square" href="{{ route('jadwalDokter',$dok->id) }}"
                         ><i class="fab fa-facebook-f"></i
                       ></a>
                       {{-- <a class="btn btn-square" href=""
