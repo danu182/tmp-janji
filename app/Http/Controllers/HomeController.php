@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Dokter;
 use App\Models\JadwalDokter;
+use App\Models\Perjanjian;
 use App\Models\Spesialisasi;
 use DateInterval;
 use DatePeriod;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Carbon\Carbon;
+use PhpParser\Node\Stmt\Return_;
 
+use function App\Helpers\formatHari;
+use function App\Helpers\generateTimeSlots;
 
 class HomeController extends Controller
 {
@@ -29,146 +33,130 @@ class HomeController extends Controller
     public function jadwalDokter($id)
     {
 
-        $data=Dokter::with('getJadwal','getSpesialisasi')->where('id', $id)->get();
-        $dokters= json_decode($data, true);
-        
-        // Menggunakan koleksi Laravel
-        $collection = collect($dokters);
+        $dokter=Dokter::with('getJadwal','getSpesialisasi')->where('id', $id)->first();
+        // $dokters= json_decode($data, true);
 
-        // Mengelompokkan berdasarkan hari
-        $jadwal   = $collection->map(function ($item) {
-            // Mengelompokkan jadwal berdasarkan hari
-            $jadwalGrouped = collect($item['get_jadwal'])->groupBy('hari');
+        $jadwalKelompok = $dokter->getJadwal->groupBy('hari');
 
-            // Mengubah hasil menjadi array multi dimensi
-            return [
-                'id' => $item['id'],
-                'spesialisId' => $item['spesialisId'],
-                'userId' => $item['userId'],
-                'namaDokter' => $item['namaDokter'],
-                'get_spesialisasi' => $item['get_spesialisasi'],
-                'get_jadwal' => $jadwalGrouped->map(function ($jadwals, $hari) {
-                    return [
-                        'hari' => $hari,
-                        'jadwals' => $jadwals->map(function ($jadwal) {
-                            return [
-                                'id' => $jadwal['id'],
-                                'dokterId' => $jadwal['dokterId'],
-                                'start_time' => $jadwal['start_time'],
-                                'end_time' => $jadwal['end_time']
-                            ];
-                        })->values()->all()
-                    ];
-                })->values()->all()
-            ];
-        })->values()->all();
+        return view('frontend.jadwal-per-dokter', compact('dokter','jadwalKelompok'));
+    
+    }
 
 
-            // Menampilkan hasil
-            // return $jadwal;
-        return view('frontend.jadwal-per-dokter', compact('jadwal'));
+    
+    function generateTimeSlots($startTime, $endTime, $interval = 60) 
+    {
+        $slots = [];
+        $start = Carbon::createFromFormat('H:i:s', $startTime);
+        $end = Carbon::createFromFormat('H:i:s', $endTime);
+
+        while ($start < $end) {
+            $slots[] = $start->format('H:i:s');
+            $start->addMinutes($interval);
+        }
+
+        return $slots;
     }
 
     public function bookingDokter($id)
     {
+        $dokter = Dokter::with(['getJadwal', 'getSpesialisasi'])->find($id);
+        $jadwalKelompok = $dokter->getJadwal->groupBy('hari');
+
+        // Menyimpan slot waktu
+        $jadwalDenganSlot = [];
+
+        foreach ($jadwalKelompok as $hari => $jadwals) {
+            foreach ($jadwals as $jadwal) {
+                $slots = generateTimeSlots($jadwal->start_time, $jadwal->end_time);
+                $jadwalDenganSlot[$hari][] = [
+                    'start_time' => $jadwal->start_time,
+                    'end_time' => $jadwal->end_time,
+                    'slots' => $slots,
+                ];
+            }
+        }
 
 
-        $data = Dokter::with('getJadwal', 'getSpesialisasi')->where('id', $id)->get();
-        $dokters = json_decode($data, true);
+        return view('frontend.appoinment', compact('dokter','jadwalDenganSlot'));
 
-        // Menggunakan koleksi Laravel
-        $collection = collect($dokters);
-
-        // Mengelompokkan berdasarkan hari dan menambahkan slot jam
-        $jadwal = $collection->map(function ($item) {
-            // Mengelompokkan jadwal berdasarkan hari
-            $jadwalGrouped = collect($item['get_jadwal'])->groupBy('hari');
-
-            // Mengubah hasil menjadi array multi dimensi dan menambahkan slot jam
-            return [
-                'id' => $item['id'],
-                'spesialisId' => $item['spesialisId'],
-                'userId' => $item['userId'],
-                'namaDokter' => $item['namaDokter'],
-                'get_spesialisasi' => $item['get_spesialisasi'],
-                'get_jadwal' => $jadwalGrouped->map(function ($jadwals, $hari) {
-                    return [
-                        'hari' => $hari,
-                        'jadwals' => $jadwals->map(function ($jadwal) {
-                            // Membuat slot jam
-                            $start = new DateTime($jadwal['start_time']);
-                            $end = new DateTime($jadwal['end_time']);
-                            $interval = new DateInterval('PT1H'); // Interval 1 jam
-                            $period = new DatePeriod($start, $interval, $end);
-
-                            // Menyimpan slot jam dalam array
-                            $slots = [];
-                            foreach ($period as $dt) {
-                                $slots[] = $dt->format('H:i'); // Format waktu sesuai kebutuhan
-                            }
-
-                            return [
-                                'id' => $jadwal['id'],
-                                'dokterId' => $jadwal['dokterId'],
-                                'start_time' => $jadwal['start_time'],
-                                'end_time' => $jadwal['end_time'],
-                                'slots' => $slots // Menambahkan slot jam
-                            ];
-                        })->values()->all()
-                    ];
-                })->values()->all()
-            ];
-        })->values()->all();
-
-        // Menampilkan hasil
-        return $jadwal;
-
-
-        //  $data=Dokter::with('getSpesialisasi','getJadwal')->where('id', $id)->first();
-        // $return $data;
-        //  $praktek= $data->getJadwal;
-        // $jam= json_decode($praktek, true);
-        //  $collection=collect($jam);
-        // //  return $collection;
-
-        //  // Mengelompokkan berdasarkan hari
-        // $groupedByDay = $collection->groupBy('hari');
-        
-        // $result = [];
-        // foreach ($groupedByDay as $day => $schedules) {
-        //     $result[$day] = [];
-        //     foreach ($schedules as $schedule) {
-        //         $start = new DateTime($schedule['start_time']);
-        //         $end = new DateTime($schedule['end_time']);
-        //         $interval = new DateInterval('PT1H'); // Interval 1 jam
-        //         $period = new DatePeriod($start, $interval, $end);
-
-        //         foreach ($period as $dt) {
-        //             $result[$day][] = $dt->format('H:i'); // Format waktu sesuai kebutuhan
-        //         }
-        //     }
-        // }
-
-        // return $result;
-
-        // Membuat slot jam
-        // $timeSlots = makeTimeSlots($data);
-
-        // // Menampilkan hasil
-        // print_r($timeSlots);
-
-        // $start_time = "10:00:00";
-        // $end_time = "15:00:00";
-        // $start = new DateTime($start_time);
-        // $end = new DateTime($end_time);
-        // $interval = new DateInterval('PT1H'); // Interval 1 jam
-        // $period = new DatePeriod($start, $interval, $end);
-
-        // $slots = [];
-        // foreach ($period as $dt) {
-        //     $slots[] = $dt->format('H:i'); // Format waktu sesuai kebutuhan
-        // }
-
-        // return $slots;
     }
+
+    public function cekHari(Request $request)
+    {
+        
+        $request->validate([
+            'tanggal' => 'required|date', // Ensure 'tanggal' is a valid date
+        ]);
+
+        $tanggal = $request->tanggal;
+        $hari= formatHari($tanggal);
+        return response()->json(['hari' => $hari]);
+    }
+
+    public function getSlotJadwal(Request $request)
+    {
+        // Validate the request to ensure 'hari' is provided
+        $request->validate([
+            'hari' => 'required|string', // Ensure 'hari' is provided and is a string
+        ]);
+
+        $hari = $request->hari;
+
+        // Fetch the slots based on the day
+        $slot = JadwalDokter::where('hari', $hari)->where('dokterId',1)->get();
+
+        // Return the slots as a JSON response
+        return response()->json(['slot' => $slot]);
+    }
+
+
+    public function coba_get()
+    {
+       
+
+        return view('coba');
+    }
+
+    public function coba(Request $request)
+    {
+        // Validate the request to ensure 'hari' is provided
+    $request->validate([
+        'hari' => 'required|string', // Ensure 'hari' is provided and is a string
+    ]);
+
+    $hari = $request->hari;
+
+    // Fetch the slots based on the day and doctor ID
+    $slots = JadwalDokter::where('hari', $hari)->where('dokterId', 1)->get();
+    $timeSlots = [];
+
+        foreach ($slots as $schedule) {
+            $startTime = Carbon::createFromFormat('H:i:s', $schedule['start_time']);
+            $endTime = Carbon::createFromFormat('H:i:s', $schedule['end_time']);
+
+            while ($startTime < $endTime) {
+                $slotStart = $startTime->format('H:i');
+                $slotEnd = $startTime->copy()->addHour()->format('H:i');
+                
+                $timeSlots[] = [
+                    'hari' => $schedule['hari'],
+                    'start_time' => $slotStart,
+                    'end_time' => $slotEnd,
+                ];
+                
+                $startTime->addHour();
+            }
+        }
+
+    // Return the slots as a JSON response
+    return response()->json(['timeSlots' => $timeSlots]);
+
+    }
+    
+
+
+
+    
+
 }

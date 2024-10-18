@@ -20,27 +20,27 @@
 
 <!-- Feature Start -->
     
-@foreach  ($jadwal as $jd)
+
     <div class="container-fluid bg-primary overflow-hidden px-lg-0" style="margin: 6rem 0;">
         <div class="container feature px-lg-0">
             <div class="row g-0 mx-lg-0">
                 <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
                     <div class="p-lg-5 ps-lg-0">
                         <p class="d-inline-block border rounded-pill text-light py-1 px-4">Jadawl Praktek</p>
-                        <h1 class="text-white mb-1">{{ $jd['namaDokter'] }}</h1>
-                        <h4 class="text-light mb-4"> Spesialis {{ $jd['get_spesialisasi']['namaSpesialis'] }}</h4>
+                        <h1 class="text-white mb-1">{{ $dokter->namaDokter }}</h1>
+                        <h4 class="text-light mb-4"> Spesialis {{ $dokter->getSpesialisasi->namaSpesialis }}</h4>
                         <p class="text-white mb-4 pb-2">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
                         <div class="row g-4">
                             {{-- loopong jadwal strat --}}
-                            @forelse ($jd['get_jadwal'] as $getjdwal)
+                            @forelse ($jadwalKelompok as $hari =>$jadwals)
                                 <div class="col-6">
                                 <div class="d-flex align-items-center">
                                     <div class="d-flex flex-shrink-0 align-items-center justify-content-center rounded-circle bg-light" style="width: 55px; height: 55px;">
                                         <i class="fa fa-user-md text-primary"></i>
                                     </div>
                                     <div class="ms-4">
-                                        <p class="text-white mb-2">{{ $getjdwal['hari'] }}</p>
-                                        @foreach ($getjdwal['jadwals'] as $jam)
+                                        <p class="text-white mb-2">{{ $hari }}</p>
+                                        @foreach ($jadwals as $jam)
                                             <h5 class="text-white mb-0">{{ date('H:i', strtotime($jam['start_time'] ))}}-{{ date('H:i', strtotime($jam['end_time'] ))}}  </h5>
                                         @endforeach
                                         {{-- <h5 class="text-white mb-0">{{ $hari->start_time }} - {{ $hari->end_time }}  </h5> --}}
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             @endforelse
-                            <a href="{{ route('bookingDokter',$jd['id']) }}" class="btn btn-warning">booking</a>
+                            <a href="{{ route('bookingDokter',$dokter->id) }}" class="btn btn-warning">booking</a>
                             
                             {{-- loopong jadwal end --}}
                         </div>
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-@endforeach
+
     
 <!-- Feature End -->
 

@@ -21,9 +21,9 @@ return new class extends Migration
             $table->unsignedBigInteger('doctorId');
             $table->foreign('doctorId')->references('id')->on('dokters');
 
-            $table->unsignedBigInteger('jadwalDokterId');
-            $table->foreign('jadwalDokterId')->references('id')->on('jadwal_dokters');
-
+            $table->date('tanggalperjanjian')->format('Y-m-d');;
+            $table->time('jamPerjanjian'); 
+            
             $table->string('status');
             $table->timestamps();
         });
