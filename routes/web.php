@@ -36,7 +36,8 @@ use Illuminate\Support\Facades\Route;
  
  Route::get('/coba_get', [HomeController::class,'coba_get'])->name('coba_get');
  Route::post('/coba', [HomeController::class,'coba'])->name('coba');
-
+ 
+ Route::post('/AmbilSlotJam', [HomeController::class,'AmbilSlotJam'])->name('AmbilSlotJam');
 
 // Route::get('/detail-poli', function () {
 //     return view('frontend.detail-poli');

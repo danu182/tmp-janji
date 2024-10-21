@@ -71,9 +71,10 @@
               
               {{-- lopping di start --}}
 
-              <form method="POST" action="">
+              <form method="POST" action="{{ route('coba') }}">
                 @csrf
-                <input name="doctorId" type="hidden" value="{{ $dokter->id }}"/>
+                @method('POST')
+                
                     <div class="row g-3">
                       <div class="col-12 col-sm-6">
                         <input name="name"
@@ -133,6 +134,7 @@
                             <input type="text" name="hari" id="hari" class="form-control border-0"  style="height: 55px">
                         </div>
                     </div>
+                    <input name="dokterId" type="hidden" value="{{ $dokter->id }}"/>
 
                     <div class="col-12 col-sm-6">
                         <select name="slot" id="slot" class="form-select border-0" style="height: 55px;">
@@ -163,106 +165,51 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-      $(document).on("change", "#tanggal", function() {
-        var tanggal = $(this).val();
+    
+    
+  $(document).on("change", "#tanggal", function() {
+      var tanggal = $(this).val(); // Get the value from the input field
+      var dokterId = $("input[name='dokterId']").val(); // Get the dokterId value
 
-        $.ajax({
-            url: "{{ route('cekHari') }}", // Make sure this matches your route
-            type: "POST",
-            data: {
-                tanggal: tanggal,
-                _token: '{{ csrf_token() }}'// Include CSRF token
-            },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                $('#hari').val(data.hari); // Update the 'hari' field
-            },
-            error: function(xhr, status, error) {
-                console.error("Status:", status);
-                console.error("Error:", error);
-                console.error("Response:", xhr.responseText); // Log the response text
-                alert("An error occurred: " + xhr.status + " " + xhr.statusText); // Show status code
-            }
-        });
-    });
+      if (tanggal) {
+          $.ajax({
+              url: "{{ route('AmbilSlotJam') }}", // Ensure this route exists
+              type: "POST",
+              data: {
+                  tanggal: tanggal, // Send the day value
+                  dokterId: dokterId, // Include dokterId
+                  _token: '{{ csrf_token() }}' // Include CSRF token
+              },
+              dataType: "json",
+              success: function(data) {
+                  console.log(data);
+                  $('#slot').empty(); // Clear existing options
+                  $('#hari').val(data.hari)
+                  $('#slot').append('<option selected>pilih slot</option>'); // Reset the select
+
+                  // Loop through the data received and append options
+                  $.each(data.timeSlots, function(index, timeSlots) {
+                      // $('#slot').append('<option value="' + timeSlots.id + '">' + timeSlots.start_time + ' - ' + timeSlots.end_time + '</option>');
+                      $('#slot').append('<option value="' + timeSlots.id + '">' + timeSlots.start_time +  '</option>');
+                  });
+              },
+              error: function(xhr, status, error) {
+                  console.error("Status:", status);
+                  console.error("Error:", error);
+                  console.error("Response:", xhr.responseText);
+                  alert("An error occurred: " + xhr.status + " " + xhr.statusText);
+              }
+          });
+      } else {
+          // If the input is empty, reset the select options
+          $('#slot').empty();
+          $('#slot').append('<option selected>pilih slot</option>');
+      }
+  });
 
 
-    $(document).on("change", "#hari", function() {
-    var hari = $(this).val(); // Get the value from the input field
-
-        if (hari) {
-            $.ajax({
-                url: "{{ route('coba') }}", // Ensure this route exists
-                type: "POST",
-                data: {
-                    hari: hari, // Send the day value
-                    _token: '{{ csrf_token() }}' // Include CSRF token
-                },
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    $('#slot').empty(); // Clear existing options
-                    $('#slot').append('<option selected>pilih slot</option>'); // Reset the select
-
-                    // Loop through the data received and append options
-                    $.each(data.timeSlots, function(index, timeSlots) {
-                        $('#slot').append('<option value="' + timeSlots.id + '">' + timeSlots.start_time + '  </option>');
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error("Status:", status);
-                    console.error("Error:", error);
-                    console.error("Response:", xhr.responseText);
-                    alert("An error occurred: " + xhr.status + " " + xhr.statusText);
-                }
-            });
-        } else {
-            // If the input is empty, reset the select options
-            $('#slot').empty();
-            $('#slot').append('<option selected>pilih slot</option>');
-        }
-    });
 
     </script>
 
-
-{{-- <script>
-$(document).on("change", "#hari", function() {
-    var hari = $(this).val(); // Get the value from the input field
-
-    if (hari) {
-        $.ajax({
-            url: "{{ route('getSlotJadwal') }}", // Ensure this route exists
-            type: "POST",
-            data: {
-                hari: hari, // Send the day value
-                _token: '{{ csrf_token() }}' // Include CSRF token
-            },
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                $('#slot').empty(); // Clear existing options
-                $('#slot').append('<option selected>pilih slot</option>'); // Reset the select
-
-                // Loop through the data received and append options
-                $.each(data.slot, function(index, slot) {
-                    $('#slot').append('<option value="' + slot.id + '">' + slot.name + '</option>');
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error("Status:", status);
-                console.error("Error:", error);
-                console.error("Response:", xhr.responseText);
-                alert("An error occurred: " + xhr.status + " " + xhr.statusText);
-            }
-        });
-    } else {
-        // If the input is empty, reset the select options
-        $('#slot').empty();
-        $('#slot').append('<option selected>pilih slot</option>');
-    }
-});
-</script> --}}
     <!-- Appoinment End -->
 @endsection

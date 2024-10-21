@@ -91,7 +91,55 @@ class HomeController extends Controller
 
         $tanggal = $request->tanggal;
         $hari= formatHari($tanggal);
-        return response()->json(['hari' => $hari]);
+        // return response()->json(['hari' => $hari]);
+
+    }
+
+    public function AmbilSlotJam(Request $request)
+    {
+        $request->validate([
+            'tanggal' => 'required|date', // Ensure 'tanggal' is a valid date
+            'dokterId' => 'required|string',
+        ]);
+
+        $tanggal = $request->tanggal;
+
+        // Format hari dari tanggal
+        $hari = formatHari($tanggal);
+
+        // Ambil ID dokter
+        $kodeDokter = $request->dokterId;
+
+        // Fetch the slots based on the day and doctor ID
+        $slots = JadwalDokter::where('hari', $hari)
+            ->where('dokterId', $kodeDokter)
+            ->get();
+            
+        $timeSlots = [];
+
+        foreach ($slots as $schedule) {
+            $startTime = Carbon::createFromFormat('H:i:s', $schedule['start_time']);
+            $endTime = Carbon::createFromFormat('H:i:s', $schedule['end_time']);
+
+            while ($startTime < $endTime) {
+                $slotStart = $startTime->format('H:i');
+                $slotEnd = $startTime->copy()->addHour()->format('H:i');
+                
+                $timeSlots[] = [
+                    'hari' => $schedule['hari'],
+                    'start_time' => $slotStart,
+                    'end_time' => $slotEnd,
+                ];
+                
+                $startTime->addHour();
+            }
+        }
+
+        // Return the slots as a JSON response
+        return response()->json([
+            'timeSlots' => $timeSlots,
+            'hari' => $hari,
+        ]);
     }
 
     public function getSlotJadwal(Request $request)
@@ -123,12 +171,13 @@ class HomeController extends Controller
         // Validate the request to ensure 'hari' is provided
     $request->validate([
         'hari' => 'required|string', // Ensure 'hari' is provided and is a string
+        'dokterId' => 'required|string', // Ensure 'hari' is provided and is a string
     ]);
 
     $hari = $request->hari;
-
+    $kodeDokter=$request->dokterId;
     // Fetch the slots based on the day and doctor ID
-    $slots = JadwalDokter::where('hari', $hari)->where('dokterId', 1)->get();
+    $slots = JadwalDokter::where('hari', $hari)->where('dokterId', $kodeDokter)->get();
     $timeSlots = [];
 
         foreach ($slots as $schedule) {
