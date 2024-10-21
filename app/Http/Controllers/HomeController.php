@@ -103,7 +103,7 @@ class HomeController extends Controller
         ]);
 
         $tanggal = $request->tanggal;
-
+        
         // Format hari dari tanggal
         $hari = formatHari($tanggal);
 
@@ -114,7 +114,7 @@ class HomeController extends Controller
         $slots = JadwalDokter::where('hari', $hari)
             ->where('dokterId', $kodeDokter)
             ->get();
-            
+
         $timeSlots = [];
 
         foreach ($slots as $schedule) {
@@ -136,8 +136,28 @@ class HomeController extends Controller
         }
 
         // Return the slots as a JSON response
+        // return response()->json([
+        //     'timeSlots' => $timeSlots,
+        //     'hari' => $hari,
+        // ]);
+
+        // $JamTerisi=Perjanjian::where('tanggalperjanjian',$tanggal)->where('jamPerjanjian',$timeSlots)->where('doctorId',$kodeDokter)->get();
+        
+        // Ambil jam yang terisi dari tabel Perjanjian
+         $jamTerisi = Perjanjian::where('tanggalperjanjian', $tanggal)
+            ->where('doctorId', $kodeDokter)
+            ->pluck('jamPerjanjian')
+            ->toArray();
+
+        // Filter slot waktu yang tidak terisi
+         $availableSlots = array_filter($timeSlots, function ($slot) use ($jamTerisi) {
+            return !in_array($slot['start_time'], $jamTerisi);
+        });
+
+
+        // Kembalikan slot yang tersedia sebagai response JSON
         return response()->json([
-            'timeSlots' => $timeSlots,
+            'timeSlots' => $availableSlots,
             'hari' => $hari,
         ]);
     }

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('doctorId')->references('id')->on('dokters');
 
             $table->date('tanggalperjanjian')->format('Y-m-d');;
-            $table->time('jamPerjanjian'); 
+            $table->string('jamPerjanjian'); 
             
             $table->string('status');
             $table->timestamps();
