@@ -67,16 +67,33 @@
             </div>
           </div>
           <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+            
+           
+
             <div class="bg-light rounded h-100 d-flex align-items-center p-5">
               
               {{-- lopping di start --}}
+              
 
-              <form method="POST" action="{{ route('coba') }}">
+              <form method="POST" action="{{ route('test') }}">
                 @csrf
                 @method('POST')
+
+                 @if ($errors->any())
+                  <div class="alert alert-danger">
+                    <h5><i class="fas fa-exclamation-triangle"> ada kesalahan dalan pengisian</i></h5>
+                      <ul>
+                          @foreach ($errors->all() as $message)
+                              <li>{{ $message }}</li>
+                          @endforeach
+                      </ul>
+                  </div>
+              @endif
                 
+            <input name="dokterId" type="hidden" value="{{ $dokter->id }}"/>
                     <div class="row g-3">
                       <div class="col-12 col-sm-6">
+                        <label for="nama">nama</label>
                         <input name="name"
                           type="text"
                           class="form-control border-0"
@@ -86,6 +103,7 @@
                         />
                       </div>
                       <div class="col-12 col-sm-6">
+                        <label for="email">email</label>
                         <input name="email"
                           type="email"
                           class="form-control border-0"
@@ -93,8 +111,14 @@
                           style="height: 55px"
                           value="karno@gmail.com"
                         />
+                        @error('email')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                        @enderror
                       </div>
                       <div class="col-12 col-sm-6">
+                        <label for="Nip">email</label>
                         <input name="Nip"
                           type="Nip"
                           class="form-control border-0"
@@ -102,8 +126,14 @@
                           style="height: 55px"
                           value="12345678"
                         />
+                        @error('nip')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                        @enderror
                       </div>
                       <div class="col-12 col-sm-6">
+                        <label for="emaul">hp</label>
                         <input
                         name="hp"
                           type="text"
@@ -112,8 +142,14 @@
                           style="height: 55px"
                           value="90900"
                         />
+                        @error('hp')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                        @enderror
                       </div>
                       <div class="col-12 col-sm-6">
+                        <label for="namaDokter">email</label>
                       <input name="namaDokter"
                           type="text"
                           class="form-control border-0"
@@ -121,24 +157,37 @@
                           style="height: 55px" readonly 
                           value="{{ $dokter->namaDokter }}"
                         />
+                        @error('namaDokter')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                        @enderror
                       </div>
 
                       
                       <div class="col-12 col-sm-6">
+                        <label for="tanggal">tanggal</label>
                         <div class="date" id="date" data-target-input="nearest">
-                            <input type="date" name="tanggal" id="tanggal" class="form-control border-0" style="height: 55px">
+                            <input type="date" name="tanggal" id="tanggal" class="form-control border-0" style="height: 55px"   >
                         </div>
+                        @error('tanggal')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                        @enderror
                     </div>
                     <div class="col-12 col-sm-6">
+                      <label for="hari">email</label>
                         <div class="date" id="date" data-target-input="nearest">
-                            <input type="text" name="hari" id="hari" class="form-control border-0"  style="height: 55px">
+                            <input type="text" name="hari" id="hari" class="form-control border-0"  style="height: 55px" readonly>
                         </div>
                     </div>
-                    <input name="dokterId" type="hidden" value="{{ $dokter->id }}"/>
 
                     <div class="col-12 col-sm-6">
+                      <label for="slot">pilh jam</label>
                         <select name="slot" id="slot" class="form-select border-0" style="height: 55px;">
                             <option selected>pilih slot</option>
+                            
                             <!-- Options will be populated here dynamically -->
                         </select>
                     </div>
@@ -190,7 +239,7 @@
                   // Loop through the data received and append options
                   $.each(data.timeSlots, function(index, timeSlots) {
                       // $('#slot').append('<option value="' + timeSlots.id + '">' + timeSlots.start_time + ' - ' + timeSlots.end_time + '</option>');
-                      $('#slot').append('<option value="' + timeSlots.id + '">' + timeSlots.start_time +  '</option>');
+                      $('#slot').append('<option value="' + timeSlots.start_time + '">' + timeSlots.start_time +  '</option>');
                   });
               },
               error: function(xhr, status, error) {
@@ -203,10 +252,11 @@
       } else {
           // If the input is empty, reset the select options
           $('#slot').empty();
-          $('#slot').append('<option selected>pilih slot</option>');
+          $('#slot').append('<option selected readonly>pilih slot</option>');
       }
   });
 
+  
 
 
     </script>

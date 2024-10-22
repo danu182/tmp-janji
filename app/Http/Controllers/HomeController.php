@@ -162,66 +162,44 @@ class HomeController extends Controller
         ]);
     }
 
-    public function getSlotJadwal(Request $request)
-    {
-        // Validate the request to ensure 'hari' is provided
-        $request->validate([
-            'hari' => 'required|string', // Ensure 'hari' is provided and is a string
-        ]);
+    // public function getSlotJadwal(Request $request)
+    // {
+    //     // Validate the request to ensure 'hari' is provided
+    //     $request->validate([
+    //         'hari' => 'required|string', // Ensure 'hari' is provided and is a string
+    //     ]);
 
-        $hari = $request->hari;
+    //     $hari = $request->hari;
 
-        // Fetch the slots based on the day
-        $slot = JadwalDokter::where('hari', $hari)->where('dokterId',1)->get();
+    //     // Fetch the slots based on the day
+    //     $slot = JadwalDokter::where('hari', $hari)->where('dokterId',1)->get();
 
-        // Return the slots as a JSON response
-        return response()->json(['slot' => $slot]);
-    }
+    //     // Return the slots as a JSON response
+    //     return response()->json(['slot' => $slot]);
+    // }
 
 
     public function coba_get()
     {
-       
-
-        return view('coba');
+       return view('coba');
     }
 
-    public function coba(Request $request)
+    public function test(Request $request)
     {
-        // Validate the request to ensure 'hari' is provided
-    $request->validate([
-        'hari' => 'required|string', // Ensure 'hari' is provided and is a string
-        'dokterId' => 'required|string', // Ensure 'hari' is provided and is a string
-    ]);
+         $request->validate([
+            'dokterId'=>'required|exists:dokters,id',
+            'name'=>'required|exists:users,name',
+            'email'=>'required|email|exists:users,email',
+            'Nip'=>'required|exists:users,nip',
+            'namaDokter'=>'required|exists:dokters,namaDokter',
+            'tanggal' => 'required|date', // Ensure 'tanggal' is a valid date
+            'slot' => 'required', // Ensure 'tanggal' is a valid date
+        ]);
 
-    $hari = $request->hari;
-    $kodeDokter=$request->dokterId;
-    // Fetch the slots based on the day and doctor ID
-    $slots = JadwalDokter::where('hari', $hari)->where('dokterId', $kodeDokter)->get();
-    $timeSlots = [];
 
-        foreach ($slots as $schedule) {
-            $startTime = Carbon::createFromFormat('H:i:s', $schedule['start_time']);
-            $endTime = Carbon::createFromFormat('H:i:s', $schedule['end_time']);
-
-            while ($startTime < $endTime) {
-                $slotStart = $startTime->format('H:i');
-                $slotEnd = $startTime->copy()->addHour()->format('H:i');
-                
-                $timeSlots[] = [
-                    'hari' => $schedule['hari'],
-                    'start_time' => $slotStart,
-                    'end_time' => $slotEnd,
-                ];
-                
-                $startTime->addHour();
-            }
-        }
-
-    // Return the slots as a JSON response
-    return response()->json(['timeSlots' => $timeSlots]);
-
+        return $request->all();
     }
+
     
 
 

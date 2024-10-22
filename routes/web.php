@@ -30,14 +30,16 @@ use Illuminate\Support\Facades\Route;
  
  Route::post('/cekHari', [HomeController::class,'cekHari'])->name('cekHari');
  
- Route::post('/getSlotJadwal', [HomeController::class,'getSlotJadwal'])->name('getSlotJadwal');
+//  Route::post('/getSlotJadwal', [HomeController::class,'getSlotJadwal'])->name('getSlotJadwal');
  
  // Route::post('/cekJadwal', [HomeController::class,'cekJadwal'])->name('cekJadwal');
  
- Route::get('/coba_get', [HomeController::class,'coba_get'])->name('coba_get');
+//  Route::get('/coba_get', [HomeController::class,'coba_get'])->name('coba_get');
  Route::post('/coba', [HomeController::class,'coba'])->name('coba');
  
  Route::post('/AmbilSlotJam', [HomeController::class,'AmbilSlotJam'])->name('AmbilSlotJam');
+ 
+ Route::post('/test', [HomeController::class,'test'])->name('test');
 
 // Route::get('/detail-poli', function () {
 //     return view('frontend.detail-poli');
@@ -46,6 +48,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/appoinment', function () {
     return view('frontend.appoinment');
 });
+
 
 Route::get('/riwayat-appoinment', function () {
     return view('frontend.riwayat-appoinment');
